@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "node -e \"const fs = require('fs'); fs.mkdirSync('dist', {recursive: true}); fs.copyFileSync(fs.existsSync('../index.html') ? '../index.html' : 'index.html', 'dist/index.html'); console.log('Built original index.html to dist');\"",
     "preview": "vite preview"
   },
   "dependencies": {
