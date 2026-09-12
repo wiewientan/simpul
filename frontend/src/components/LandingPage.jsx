@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useScroll } from 'framer-motion';
 import './LandingPage.css';
 
-export default function LandingPage({ onStartUsingSimpul }) {
+export default function LandingPage({ onStartUsingSimpul, onEnterPortal }) {
   const [animKey, setAnimKey] = useState(0);
   const [scrolledNav, setScrolledNav] = useState(false);
   
@@ -237,6 +237,39 @@ export default function LandingPage({ onStartUsingSimpul }) {
             <button onClick={() => scrollToSection('sec-serve')}>Serve</button>
             <button onClick={() => scrollToSection('sec-impact')}>Impact</button>
           </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginLeft: 'auto' }}>
+            <button 
+              onClick={onStartUsingSimpul}
+              style={{
+                padding: '6px 14px',
+                borderRadius: '8px',
+                background: 'transparent',
+                border: '1px solid rgba(24, 24, 27, 0.15)',
+                fontSize: '0.78rem',
+                fontWeight: 600,
+                color: '#18181B',
+                cursor: 'pointer'
+              }}
+            >
+              Daftar Usaha
+            </button>
+            <button 
+              onClick={onEnterPortal}
+              style={{
+                padding: '6px 14px',
+                borderRadius: '8px',
+                background: '#18181B',
+                border: 'none',
+                fontSize: '0.78rem',
+                fontWeight: 600,
+                color: '#FFF',
+                cursor: 'pointer',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+              }}
+            >
+              Masuk Portal &rarr;
+            </button>
+          </div>
         </div>
       </motion.nav>
 
@@ -339,7 +372,27 @@ export default function LandingPage({ onStartUsingSimpul }) {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            style={{ display: 'flex', gap: '14px', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}
           >
+            <motion.button 
+              className="btn-liquid-glass-learn-more"
+              onClick={onStartUsingSimpul}
+              whileHover={{ scale: 1.04, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              style={{ background: '#BE185D', borderColor: '#BE185D', color: '#FFF' }}
+            >
+              <span className="btn-glass-text" style={{ color: '#FFF', fontWeight: 600 }}>Mulai Registrasi &rarr;</span>
+            </motion.button>
+
+            <motion.button 
+              className="btn-liquid-glass-learn-more"
+              onClick={onEnterPortal}
+              whileHover={{ scale: 1.04, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <span className="btn-glass-text">Masuk Portal ERP</span>
+            </motion.button>
+
             <motion.button 
               className="btn-liquid-glass-learn-more"
               onClick={() => scrollToSection('sec-problem')}
@@ -347,13 +400,8 @@ export default function LandingPage({ onStartUsingSimpul }) {
               whileTap={{ scale: 0.97 }}
               aria-label="Learn more about Simpul"
             >
-              <span className="btn-glass-text">Learn more</span>
+              <span className="btn-glass-text">Pelajari Fitur &darr;</span>
             </motion.button>
-
-            <div className="hero-scroll-prompt" onClick={() => scrollToSection('sec-problem')}>
-              <span>Scroll to explore</span>
-              <span className="down-arrow">&darr;</span>
-            </div>
           </motion.div>
 
         </motion.div>

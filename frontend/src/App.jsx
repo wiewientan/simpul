@@ -17,10 +17,9 @@ export default function App() {
     }
   });
 
-  // Default directly to 'admin' portal if already registered, or 'admin' directly so you can develop the dashboard without re-registering
+  // Default directly to Landing Page 'site' as requested for initial view
   const [activeView, setActiveView] = useState(() => {
-    const saved = localStorage.getItem('simpul_active_company');
-    return saved ? 'admin' : 'admin'; // Always default directly to portal for instant workflow!
+    return 'site';
   });
 
   const handleCompleteOnboarding = (companyData) => {
@@ -42,12 +41,11 @@ export default function App() {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg)' }}>
       {/* Main Content Router */}
-
-      {/* Main Content Router */}
       <main style={{ flex: 1 }}>
         {activeView === 'site' && (
           <LandingPage
             onStartUsingSimpul={() => setActiveView('company-registration')}
+            onEnterPortal={() => setActiveView('admin')}
           />
         )}
 
