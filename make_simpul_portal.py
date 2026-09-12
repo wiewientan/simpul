@@ -1,0 +1,7 @@
+# -*- coding: utf-8 -*-
+import os, sys
+
+jsx_path = 'c:/Users/LENOVO/Documents/test/frontend/src/components/CompanyAdminDashboard.jsx'
+css_path = 'c:/Users/LENOVO/Documents/test/frontend/src/components/CompanyAdminDashboard.css'
+
+print('Building Simpul Enterprise Dashboard with all BRD features...')

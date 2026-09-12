@@ -1,0 +1,1019 @@
+<title>Simpul</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,450;9..144,560;9..144,620&family=DM+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  /* the five brand colors — used only as functional accents, never as decoration */
+  --rose:#DC4F7C; --jam:#C42B34; --custard:#FCE9AB; --orange:#FC8A2D; --olive:#9F9820;
+  --jam-dark:#7C1F26; --olive-dark:#6B6415; --rose-dark:#9C3457;
+
+  --bg:#FAF8F3; --surface:#FFFFFF; --surface-2:#F2EEE4; --border:#E1DACB;
+  --text:#211B16; --text-dim:#6F6558; --accent:var(--jam);
+  --danger:var(--jam-dark); --success:var(--olive-dark); --warn:#9A5A16;
+  --radius:10px; --radius-lg:14px; --shadow:0 1px 2px rgba(33,27,22,.04), 0 8px 24px rgba(33,27,22,.05);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'DM Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#18140F; --surface:#211B15; --surface-2:#2A231B; --border:#3B3225;
+    --text:#F1E9DB; --text-dim:#AA9E8C; --accent:#E2758B;
+    --jam-dark:#F0A5AF; --olive-dark:#D6CE72; --warn:#F3B36A;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#18140F; --surface:#211B15; --surface-2:#2A231B; --border:#3B3225;
+  --text:#F1E9DB; --text-dim:#AA9E8C; --accent:#E2758B;
+  --jam-dark:#F0A5AF; --olive-dark:#D6CE72; --warn:#F3B36A;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;}
+#app{min-height:100vh;display:flex;flex-direction:column;}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px;width:100%;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:20;}
+.brand{display:flex;align-items:center;gap:8px;font-family:var(--serif);font-weight:560;font-size:1.25rem;letter-spacing:-.01em;color:var(--text);}
+.nav{display:flex;gap:22px;flex-wrap:wrap;align-items:center;}
+.nav a, .btn, button{font-family:var(--sans);}
+.navlink{font-size:.86rem;font-weight:500;color:var(--text-dim);text-decoration:none;padding:4px 0;border-bottom:1.5px solid transparent;}
+.navlink.active{color:var(--text);border-color:var(--jam);}
+.hero{background:var(--surface);padding:88px 24px 72px;border-bottom:1px solid var(--border);}
+.hero-inner{max-width:700px;margin:0 auto;text-align:center;}
+.eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7A4B00;background:var(--orange);padding:5px 14px;border-radius:999px;margin-bottom:18px;}
+.hero h1{font-family:var(--serif);font-weight:560;font-size:2.9rem;line-height:1.12;margin:0 0 20px;letter-spacing:-.015em;color:var(--text);}
+.hero h1 em{font-style:italic;color:var(--jam);}
+.hero p{font-size:1.08rem;color:var(--text-dim);line-height:1.65;max-width:520px;margin:0 auto;}
+.band{border-bottom:1px solid var(--border);}
+.band.dark{background:var(--jam-dark);color:var(--custard);}
+.band.dark .muted{color:#E9CFA0;}
+.band.dark .stat{background:rgba(0,0,0,.14);border-color:rgba(255,255,255,.16);}
+.band.dark .stat .num{color:var(--custard);}
+.band.dark .stat .lbl{color:#E9CFA0;}
+.band.olive{background:var(--olive-dark);color:var(--custard);}
+.band.olive .muted{color:#E7E4C2;}
+.band.rose{background:#FBE7ED;color:var(--text);}
+.band.tint{background:var(--surface-2);}
+.band.plain{background:var(--surface);}
+.band h2, .card h2, .card h3{font-family:var(--serif);}
+.band-heading{font-family:var(--serif);font-weight:560;font-size:1.9rem;text-align:center;margin:0 0 34px;letter-spacing:-.01em;text-transform:uppercase;letter-spacing:.03em;}
+.band-heading em{font-style:italic;text-transform:none;color:var(--jam);}
+.band.dark .band-heading em, .band.olive .band-heading em{color:var(--rose);}
+.frame{border:9px double var(--jam);background:var(--surface);color:var(--text);padding:34px 30px;border-radius:2px;max-width:640px;margin:0 auto;}
+.frame-list{counter-reset:step;}
+.frame-item{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid var(--border);}
+.frame-item:last-child{border-bottom:none;}
+.frame-item .num{font-family:var(--serif);font-style:italic;font-size:1.5rem;color:var(--jam);flex:none;width:36px;}
+.frame-item h4{font-family:var(--serif);font-weight:600;margin:0 0 3px;font-size:1.02rem;}
+.frame-item p{margin:0;color:var(--text-dim);font-size:.86rem;line-height:1.5;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;box-shadow:var(--shadow);}
+.grid{display:grid;gap:16px;}
+.grid.cols-2{grid-template-columns:1fr 1fr;}
+.grid.cols-3{grid-template-columns:repeat(3,1fr);}
+@media (max-width:760px){.grid.cols-2,.grid.cols-3{grid-template-columns:1fr;}}
+h2{font-family:var(--serif);font-weight:560;margin:0 0 4px;font-size:1.4rem;letter-spacing:-.01em;}
+h3{font-family:var(--serif);font-weight:560;margin:0 0 10px;font-size:1.08rem;letter-spacing:-.005em;}
+.muted{color:var(--text-dim);font-size:.88rem;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-weight:500;font-size:.86rem;}
+.btn:hover{background:var(--surface-2);}
+.btn.primary{background:var(--jam);border-color:var(--jam);color:#fff;}
+.btn.primary:hover{background:var(--jam-dark);border-color:var(--jam-dark);filter:none;}
+.btn.rose{background:transparent;border-color:var(--rose);color:var(--rose-dark);}
+.btn.rose:hover{background:var(--surface-2);}
+.btn.olive{background:var(--olive-dark);border-color:var(--olive-dark);color:var(--custard);}
+.btn.olive:hover{filter:brightness(1.08);}
+.btn.danger{background:transparent;border-color:var(--jam-dark);color:var(--jam-dark);}
+.btn.danger:hover{background:var(--surface-2);}
+.btn.ghost{background:transparent;border-color:transparent;}
+.btn.sm{padding:6px 12px;font-size:.78rem;}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+input,select,textarea{width:100%;padding:9px 11px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-family:var(--sans);}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--jam);box-shadow:0 0 0 3px rgba(196,43,52,.12);}
+label{display:block;font-size:.72rem;color:var(--text-dim);margin-bottom:5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;}
+.field{margin-bottom:14px;}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end;}
+.row > *{flex:1;min-width:140px;}
+table{width:100%;border-collapse:collapse;font-size:.86rem;}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);white-space:nowrap;}
+th{color:var(--text-dim);font-weight:600;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;}
+tr:hover td{background:var(--surface-2);}
+.tablewrap{overflow-x:auto;}
+.badge{display:inline-block;padding:3px 10px;border-radius:6px;font-size:.7rem;font-weight:600;letter-spacing:.02em;border:1px solid transparent;}
+.badge.created{background:var(--surface-2);color:var(--text-dim);border-color:var(--border);}
+.badge.issued{background:rgba(252,138,45,.14);color:var(--warn);}
+.badge.qc_passed{background:rgba(159,152,32,.14);color:var(--olive-dark);}
+.badge.qc_failed{background:rgba(196,43,52,.12);color:var(--jam-dark);}
+.badge.reworked{background:rgba(220,79,124,.13);color:var(--rose-dark);}
+.badge.paid{background:var(--text);color:var(--bg);}
+.tabs{display:flex;gap:22px;border-bottom:1px solid var(--border);margin-bottom:20px;flex-wrap:wrap;}
+.tab{padding:10px 0;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;color:var(--text-dim);font-weight:500;font-size:.86rem;}
+.tab.active{color:var(--text);border-color:var(--jam);}
+.modal-bg{position:fixed;inset:0;background:rgba(20,16,12,.5);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;max-width:420px;width:100%;max-height:90vh;overflow:auto;box-shadow:var(--shadow);}
+.modal video{width:100%;border-radius:8px;background:#000;}
+.qrbox{background:#fff;padding:10px;border-radius:8px;display:inline-block;border:1px solid var(--border);}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px;}
+.stat .num{font-family:var(--serif);font-size:1.8rem;font-weight:560;color:var(--text);}
+.stat .lbl{font-size:.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-top:2px;}
+.footer{margin-top:auto;padding:28px 24px;text-align:center;color:var(--text-dim);font-size:.82rem;border-top:1px solid var(--border);}
+.empty{padding:36px;text-align:center;color:var(--text-dim);}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 18px;border-radius:8px;font-size:.85rem;z-index:200;box-shadow:var(--shadow);}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);border:1px solid var(--border);border-radius:999px;padding:5px 10px;font-size:.78rem;}
+.section{margin-bottom:26px;}
+.two-col{display:grid;grid-template-columns:1.3fr 1fr;gap:18px;}
+@media (max-width:820px){.two-col{grid-template-columns:1fr;}}
+.consent-note{font-size:.75rem;color:var(--text-dim);background:var(--surface-2);border-radius:8px;padding:8px 10px;margin-top:6px;}
+.center{text-align:center;}
+.link-box{display:flex;gap:8px;align-items:center;background:var(--surface-2);border:1px solid var(--border);padding:8px 10px;border-radius:8px;font-size:.8rem;word-break:break-all;}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--surface-2);border:1px solid var(--border);display:inline-flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.1rem;color:var(--text);flex:none;}
+.plan{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:26px 24px;display:flex;flex-direction:column;gap:14px;}
+.plan.highlight{border:2px solid var(--jam);box-shadow:var(--shadow);position:relative;}
+.plan .plan-tag{position:absolute;top:-12px;left:20px;background:var(--jam);color:#fff;font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:999px;}
+.plan .plan-name{font-family:var(--serif);font-size:1.2rem;font-weight:600;}
+.plan .plan-fit{color:var(--text-dim);font-size:.84rem;min-height:2.6em;}
+.plan .plan-price{font-family:var(--serif);font-size:1.7rem;font-weight:600;margin-top:6px;}
+.plan .plan-price small{font-family:var(--sans);font-size:.7rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em;}
+.plan ul{margin:0;padding-left:18px;color:var(--text-dim);font-size:.86rem;line-height:1.7;}
+</style>
+
+<div id="app"><div class="empty">Loading Simpul…</div></div>
+<div id="toast-host"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ---------------------------------------------------------------
+   SIMPUL — a real working app for the production + payment loop
+   described in "How Simpul works". Backed by the artifact `db`
+   capability: one shared, persistent store for every viewer.
+------------------------------------------------------------------*/
+
+let db = null;
+let dbReady = false;
+let coordinatorName = localStorage_get('simpul_actor') || '';
+
+const cache = { brands:[], orders:[], operations:[], workers:[], bundles:[], events:[], payouts:[] };
+const unsub = [];
+
+function localStorage_get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function localStorage_set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+
+function uid(){ return (crypto.randomUUID ? crypto.randomUUID() : 'id-'+Math.random().toString(36).slice(2)+Date.now()); }
+function shortToken(){ return (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36)).replace(/-/g,'').slice(0,10); }
+function money(n){ n = Number(n)||0; return 'Rp ' + n.toLocaleString('id-ID',{maximumFractionDigits:0}); }
+function fmtDate(iso){ if(!iso) return '—'; const d=new Date(iso); return d.toLocaleDateString(undefined,{day:'2-digit',month:'short',year:'numeric'}); }
+function fmtDateTime(iso){ if(!iso) return '—'; const d=new Date(iso); return d.toLocaleString(undefined,{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function byId(arr,id){ return arr.find(x=>x.id===id); }
+
+function toast(msg){
+  const host = document.getElementById('toast-host');
+  const el = document.createElement('div');
+  el.className='toast'; el.textContent = msg;
+  host.appendChild(el);
+  setTimeout(()=>{ el.remove(); }, 2600);
+}
+
+/* ------------------------- DB bootstrap ------------------------- */
+
+function createLocalDb(){
+  const STORAGE_KEY = 'simpul_local_db_v1';
+  let data = {};
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) data = JSON.parse(raw);
+  } catch (e) { data = {}; }
+
+  const listeners = [];
+
+  function save() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch (e) {}
+    notify();
+  }
+
+  function notify() {
+    listeners.forEach(fn => fn());
+  }
+
+  return {
+    collection: function(colName) {
+      if (!data[colName]) data[colName] = {};
+      return {
+        onSnapshot: function(callback, errCallback) {
+          const handler = () => {
+            const docs = Object.keys(data[colName] || {}).map(id => ({
+              id: id,
+              data: () => Object.assign({}, data[colName][id])
+            }));
+            callback({ docs: docs });
+          };
+          listeners.push(handler);
+          setTimeout(handler, 0);
+          return () => {
+            const idx = listeners.indexOf(handler);
+            if (idx >= 0) listeners.splice(idx, 1);
+          };
+        },
+        doc: function(id) {
+          return {
+            set: async function(docData) {
+              if (!data[colName]) data[colName] = {};
+              data[colName][id] = Object.assign({}, docData);
+              save();
+            },
+            update: async function(updateData) {
+              if (!data[colName]) data[colName] = {};
+              if (!data[colName][id]) data[colName][id] = {};
+              Object.assign(data[colName][id], updateData);
+              save();
+            }
+          };
+        },
+        add: async function(docData) {
+          const id = (crypto.randomUUID ? crypto.randomUUID() : 'id-' + Math.random().toString(36).slice(2) + Date.now());
+          if (!data[colName]) data[colName] = {};
+          data[colName][id] = Object.assign({}, docData);
+          save();
+          return { id: id };
+        }
+      };
+    },
+    doc: function(path) {
+      const parts = path.split('/');
+      const colName = parts[0];
+      const id = parts[1];
+      if (!data[colName]) data[colName] = {};
+      return {
+        update: async function(updateData) {
+          if (!data[colName][id]) data[colName][id] = {};
+          Object.assign(data[colName][id], updateData);
+          save();
+        },
+        set: async function(docData) {
+          data[colName][id] = Object.assign({}, docData);
+          save();
+        }
+      };
+    }
+  };
+}
+
+async function initDb(){
+  try{
+    if (typeof claude !== 'undefined' && claude.use) {
+      db = await claude.use('db');
+    }
+  }catch(e){ db = null; }
+  if(!db){
+    db = createLocalDb();
+  }
+  const collections = ['brands','orders','operations','workers','bundles','bundle_events','payouts'];
+  const map = {brands:'brands',orders:'orders',operations:'operations',workers:'workers',bundles:'bundles',bundle_events:'events',payouts:'payouts'};
+  collections.forEach(col=>{
+    const key = map[col];
+    const u = db.collection(col).onSnapshot(snap=>{
+      cache[key] = snap.docs.map(d=>Object.assign({id:d.id}, d.data()));
+      dbReady = true;
+      render();
+    }, err=>{ console.error('db error on', col, err); });
+    unsub.push(u);
+  });
+}
+
+/* ------------------------------ Router ------------------------------ */
+
+function currentRoute(){
+  const h = location.hash.replace(/^#\/?/, '');
+  const parts = h.split('/').filter(Boolean);
+  return parts.length ? parts : ['home'];
+}
+window.addEventListener('hashchange', render);
+
+function go(path){ location.hash = path; }
+
+/* ------------------------------ Layout ------------------------------ */
+
+function topbar(active){
+  const links = [
+    ['#/home','Site'],
+    ['#/pricing','Pricing'],
+    ['#/console','Console'],
+    ['#/worker','Her page'],
+    ['#/tag','Tag lookup'],
+  ];
+  return '<div class="topbar"><div class="brand">Simpul</div>'+
+    '<div class="nav">'+ links.map(([href,label])=>{
+      const isActive = active===label;
+      return '<a class="navlink'+(isActive?' active':'')+'" href="'+href+'">'+label+'</a>';
+    }).join('') +'</div></div>';
+}
+
+function footer(){
+  return '<div class="footer">One scan is the truth — the production loop, payouts and provenance all run from a single append-only record.</div>';
+}
+
+function render(){
+  const app = document.getElementById('app');
+  if(!dbReady && db){ app.innerHTML = '<div class="empty">Loading…</div>'; return; }
+  const [section, ...rest] = currentRoute();
+  let html = '';
+  if(section==='home' || section===''){ html = topbar('Site') + renderSite() + footer(); }
+  else if(section==='pricing'){ html = topbar('Pricing') + renderPricing() + footer(); }
+  else if(section==='console'){ html = topbar('Console') + renderConsole(rest); }
+  else if(section==='worker'){ html = topbar('Her page') + renderWorkerEntry(rest[0]); }
+  else if(section==='tag'){ html = topbar('Tag lookup') + renderTag(rest[0]); }
+  else { html = topbar('Site') + renderSite() + footer(); }
+  app.innerHTML = html;
+  afterRender(section, rest);
+}
+
+/* ------------------------------ SITE ------------------------------ */
+
+function renderSite(){
+  const totalBundlesPassed = cache.bundles.filter(b=>b.status==='qc_passed'||b.status==='paid').length;
+  const totalWorkers = cache.workers.filter(w=>w.active!==false).length;
+  const totalPaidOut = cache.payouts.reduce((s,p)=>s+(p.amount||0),0);
+  return '<div class="hero"><div class="hero-inner">'+
+    '<div class="eyebrow">Piecework, traced honestly</div>'+
+    '<h1>One scan is <em>the truth</em></h1>'+
+    '<p>Simpul tracks every bundle of piecework from the moment it leaves the hub to the moment it\'s paid for — and turns that same record into a worker\'s running earnings and a garment\'s traceable tag. No spreadsheets, no second ledger.</p>'+
+    '<div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center">'+
+      '<a class="btn primary" href="#/console">Open the console</a>'+
+      '<a class="btn" href="#/tag">Look up a tag</a>'+
+    '</div></div></div>'+
+    '<div class="band dark"><div class="wrap" style="padding:60px 24px">'+
+      '<div class="band-heading">How a bundle <em>moves</em></div>'+
+      '<div class="frame">'+
+        '<div class="frame-list">'+
+          frameItem('01','Split at the hub','A brand\'s order is split into bundles the moment it\'s placed — a routing plan, ready to hand out.')+
+          frameItem('02','Issued, then returned','A bundle is scanned out to a worker and scanned back in when she\'s done — the coordinator\'s hands touch it either way.')+
+          frameItem('03','Quality control forks it','A fail is reissued automatically and never reaches her earnings screen. A pass fires two independent things at once.')+
+          frameItem('04','Money and provenance, apart','Her running total updates on one branch; the garment\'s tag is written on the other. Neither ever depends on the other.')+
+        '</div>'+
+      '</div>'+
+    '</div></div>'+
+    '<div class="band rose"><div class="wrap" style="padding:56px 24px">'+
+      '<div class="grid cols-3">'+
+        stat(totalBundlesPassed,'Bundles passed QC') +
+        stat(totalWorkers,'Active workers') +
+        stat(money(totalPaidOut),'Paid out to date') +
+      '</div>'+
+    '</div></div>'+
+    '<div class="band plain"><div class="wrap" style="padding:56px 24px">'+
+      '<div class="band-heading">Three surfaces, <em>one record</em></div>'+
+      '<div class="grid cols-3">'+
+        '<div class="card"><h3>Console</h3><p class="muted" style="line-height:1.6">Order intake, routing, the live board, and scanning bundles in and out.</p></div>'+
+        '<div class="card"><h3>Her page</h3><p class="muted" style="line-height:1.6">A private link, no login — showing only what passed and what\'s been paid.</p></div>'+
+        '<div class="card"><h3>Tag lookup</h3><p class="muted" style="line-height:1.6">Anyone can check who made a piece, once it has passed QC.</p></div>'+
+      '</div>'+
+    '</div></div>'+
+    '<div class="band olive"><div class="wrap center" style="padding:52px 24px">'+
+      '<h2 style="color:var(--custard);font-size:1.6rem">Ready to trace your own line?</h2>'+
+      '<p class="muted" style="max-width:480px;margin:8px auto 22px">Open the console to add a brand, split an order into bundles, and start scanning.</p>'+
+      '<a class="btn" style="background:var(--custard);border-color:var(--custard);color:var(--jam-dark)" href="#/console">Open the console</a>'+
+    '</div></div>';
+}
+function frameItem(num,title,body){
+  return '<div class="frame-item"><div class="num">'+num+'</div><div><h4>'+esc(title)+'</h4><p>'+esc(body)+'</p></div></div>';
+}
+function stat(num,lbl){ return '<div class="stat"><div class="num">'+num+'</div><div class="lbl">'+lbl+'</div></div>'; }
+
+/* ------------------------------ PRICING ------------------------------ */
+
+function renderPricing(){
+  return '<div class="hero"><div class="hero-inner">'+
+    '<div class="eyebrow">How Simpul earns</div>'+
+    '<h1>Priced like the work <em>it replaces</em></h1>'+
+    '<p>A flat subscription per hub, plus a small fee tied to the volume that actually clears QC — so Simpul only grows when a hub\'s real production does. A brand add-on sells traceability separately, to the people who need it for compliance, not to every hub by default.</p>'+
+    '</div></div>'+
+    '<div class="band plain"><div class="wrap" style="padding:56px 24px">'+
+      '<div class="grid cols-3">'+
+        planCard({name:'Hub Starter', fit:'Pilot hubs, up to 15 active workers', price:'Free', unit:'', features:['Full production loop — issue, return, QC','Her page for every registered worker','Tag lookup','1 brand']}) +
+        planCard({name:'Hub Growth', fit:'Established hubs, up to 100 active workers', price:'RM 299', unit:'/month + RM 0.05 per bundle', features:['Everything in Starter','Unlimited bundles & brands','Payout runs & history','Priority support'], highlight:true, tag:'Most hubs land here'}) +
+        planCard({name:'Brand Traceability', fit:'Brands sourcing from one or more hubs', price:'From RM 1,500', unit:'/month', features:['Rolled-up order progress','Provenance & ESG export','Read-only access, no seat needed per hub']}) +
+      '</div>'+
+      '<p class="muted center" style="margin-top:26px;max-width:560px;margin-left:auto;margin-right:auto">Figures above are working assumptions for the pitch, not a finalised price list — see the Business Model Canvas for the full reasoning.</p>'+
+    '</div></div>';
+}
+function planCard(p){
+  return '<div class="plan'+(p.highlight?' highlight':'')+'">'+
+    (p.tag?'<div class="plan-tag">'+esc(p.tag)+'</div>':'')+
+    '<div class="plan-name">'+esc(p.name)+'</div>'+
+    '<div class="plan-fit">'+esc(p.fit)+'</div>'+
+    '<div class="plan-price">'+esc(p.price)+(p.unit?' <small>'+esc(p.unit)+'</small>':'')+'</div>'+
+    '<ul>'+p.features.map(f=>'<li>'+esc(f)+'</li>').join('')+'</ul>'+
+    '<a class="btn primary" href="#/console" style="justify-content:center;margin-top:auto">Open the console</a>'+
+  '</div>';
+}
+
+/* ------------------------------ CONSOLE ------------------------------ */
+
+let consoleTab = 'board';
+let consoleFail = null; // bundle id mid-fail-flow
+
+function renderConsole(rest){
+  if(!coordinatorName){
+    return '<div class="wrap"><div class="card" style="max-width:420px;margin:60px auto">'+
+      '<h2>Sign in as coordinator</h2>'+
+      '<p class="muted">Anyone opening this artifact can act as coordinator today — the platform doesn\'t give this app real per-person login, so this just labels who did what in the record.</p>'+
+      '<form id="f-signin"><div class="field"><label>Your name</label><input name="name" required placeholder="e.g. Budi"></div>'+
+      '<button class="btn primary" type="submit">Continue</button></form></div></div>';
+  }
+  const tabs = [
+    ['board','Board'],
+    ['orders','Orders'],
+    ['workers','Workers'],
+    ['issue','Issue (scan out)'],
+    ['return','Return + QC (scan in)'],
+    ['payouts','Payouts'],
+  ];
+  return '<div class="wrap">'+
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">'+
+      '<div><h2>Console</h2><p class="muted">Signed in as '+esc(coordinatorName)+'</p></div>'+
+      '<button class="btn sm ghost" id="btn-signout">Switch coordinator</button>'+
+    '</div>'+
+    '<div class="tabs">'+ tabs.map(([k,l])=>'<div class="tab'+(consoleTab===k?' active':'')+'" data-tab="'+k+'">'+l+'</div>').join('') +'</div>'+
+    '<div id="tabpane">'+ renderConsoleTab() +'</div>'+
+  '</div>';
+}
+
+function renderConsoleTab(){
+  if(consoleTab==='board') return renderBoard();
+  if(consoleTab==='orders') return renderOrders();
+  if(consoleTab==='workers') return renderWorkers();
+  if(consoleTab==='issue') return renderIssue();
+  if(consoleTab==='return') return renderReturn();
+  if(consoleTab==='payouts') return renderPayouts();
+  return '';
+}
+
+function orderLabel(o){ return o ? (o.ref+' · '+o.item) : '—'; }
+
+function renderBoard(){
+  const rows = cache.bundles.slice().sort((a,b)=> (b.issued_at||b.id||'').localeCompare(a.issued_at||a.id||''));
+  if(!rows.length) return '<div class="card empty">No bundles yet. Create an order to get started.</div>';
+  return '<div class="card"><div class="tablewrap"><table><thead><tr>'+
+    '<th>Bundle</th><th>Order</th><th>Operation</th><th>Qty</th><th>Worker</th><th>Status</th><th>Issued</th><th>Returned</th><th>Value</th>'+
+    '</tr></thead><tbody>'+
+    rows.map(b=>{
+      const order = byId(cache.orders,b.order_id);
+      const op = byId(cache.operations,b.operation_id);
+      const worker = byId(cache.workers,b.assigned_worker_id);
+      const value = (b.qty||0) * (b.piece_rate_at_issue||0);
+      return '<tr><td><b>'+esc(b.code)+'</b>'+(b.rework_of_bundle_id?' <span class="muted">(rework)</span>':'')+' <button class="btn sm ghost" data-action="show-bundle-qr" data-code="'+esc(b.code)+'">QR</button></td>'+
+        '<td>'+esc(orderLabel(order))+'</td>'+
+        '<td>'+esc(op?op.label:'—')+'</td>'+
+        '<td>'+esc(b.qty)+'</td>'+
+        '<td>'+esc(worker?worker.name:'—')+'</td>'+
+        '<td><span class="badge '+esc(b.status)+'">'+esc(b.status.replace('_',' '))+'</span></td>'+
+        '<td>'+fmtDateTime(b.issued_at)+'</td>'+
+        '<td>'+fmtDateTime(b.returned_at)+'</td>'+
+        '<td>'+money(value)+'</td></tr>';
+    }).join('') +
+  '</tbody></table></div></div>';
+}
+
+function renderOrders(){
+  const brandOpts = cache.brands.map(b=>'<option value="'+b.id+'">'+esc(b.name)+'</option>').join('');
+  return '<div class="grid cols-2">'+
+    '<div class="card"><h3>New brand</h3>'+
+      '<form id="f-brand"><div class="field"><label>Brand name</label><input name="name" required></div>'+
+      '<div class="field"><label>Payment terms (days)</label><input name="payment_terms_days" type="number" value="30"></div>'+
+      '<button class="btn primary" type="submit">Add brand</button></form></div>'+
+    '<div class="card"><h3>New order</h3>'+
+      (cache.brands.length ? (
+      '<form id="f-order">'+
+      '<div class="field"><label>Brand</label><select name="brand_id" required>'+brandOpts+'</select></div>'+
+      '<div class="row"><div class="field"><label>Order ref</label><input name="ref" required placeholder="PO-1023"></div>'+
+      '<div class="field"><label>Item</label><input name="item" required placeholder="Linen shirt"></div></div>'+
+      '<div class="row"><div class="field"><label>Total qty</label><input name="qty" type="number" required min="1"></div>'+
+      '<div class="field"><label>Bundle size</label><input name="bundle_size" type="number" required min="1" value="20"></div></div>'+
+      '<div class="row"><div class="field"><label>Order value</label><input name="order_value" type="number" min="0"></div>'+
+      '<div class="field"><label>Due date</label><input name="due_at" type="date"></div></div>'+
+      '<div class="field"><label>First operation label</label><input name="op_label" required placeholder="Sewing"></div>'+
+      '<div class="field"><label>Piece rate (per unit)</label><input name="piece_rate" type="number" required min="0" step="0.01"></div>'+
+      '<button class="btn primary" type="submit">Create order &amp; split into bundles</button></form>'
+      ) : '<p class="muted">Add a brand first.</p>') +
+    '</div></div>'+
+    '<div class="section" style="margin-top:20px">'+ renderOrderList() +'</div>';
+}
+
+function renderOrderList(){
+  if(!cache.orders.length) return '';
+  return '<div class="card"><h3>Orders</h3><div class="tablewrap"><table><thead><tr><th>Ref</th><th>Brand</th><th>Item</th><th>Qty</th><th>Bundles</th><th>Due</th><th>Operations</th></tr></thead><tbody>'+
+    cache.orders.map(o=>{
+      const brand = byId(cache.brands,o.brand_id);
+      const ops = cache.operations.filter(op=>op.order_id===o.id);
+      const bundles = cache.bundles.filter(b=>b.order_id===o.id);
+      return '<tr><td><b>'+esc(o.ref)+'</b></td><td>'+esc(brand?brand.name:'—')+'</td><td>'+esc(o.item)+'</td>'+
+        '<td>'+esc(o.qty)+'</td><td>'+bundles.length+'</td><td>'+fmtDate(o.due_at)+'</td>'+
+        '<td>'+ops.map(op=>esc(op.label)+' ('+money(op.piece_rate)+')').join(', ')+
+        ' <button class="btn sm ghost" data-action="add-op" data-order="'+o.id+'">+ operation</button></td></tr>';
+    }).join('') +
+  '</tbody></table></div></div>';
+}
+
+function renderWorkers(){
+  return '<div class="two-col">'+
+    '<div class="card"><h3>Register a worker</h3>'+
+    '<form id="f-worker">'+
+    '<div class="field"><label>Name</label><input name="name" required></div>'+
+    '<div class="row"><div class="field"><label>Phone</label><input name="phone"></div>'+
+    '<div class="field"><label>Village</label><input name="village"></div></div>'+
+    '<div class="field"><label>Skills (comma separated)</label><input name="skills" placeholder="Sewing, Finishing"></div>'+
+    '<div class="field"><label>Payout method</label><input name="payout_method" placeholder="e.g. GoPay, bank transfer"></div>'+
+    '<div class="field"><label><input type="checkbox" name="consent_name_public" style="width:auto;display:inline-block;margin-right:6px">Her name may appear on the tag page</label></div>'+
+    '<div class="field"><label><input type="checkbox" name="consent_data_shared" style="width:auto;display:inline-block;margin-right:6px">Brands may see her production record</label></div>'+
+    '<button class="btn primary" type="submit">Register &amp; generate her link</button>'+
+    '</form></div>'+
+    '<div class="card"><h3>Workers</h3>'+
+    (cache.workers.length ? '<div class="tablewrap" style="max-height:420px;overflow:auto"><table><thead><tr><th>Name</th><th>Village</th><th>Active</th><th>Her link</th></tr></thead><tbody>'+
+      cache.workers.map(w=>'<tr><td>'+esc(w.name)+'</td><td>'+esc(w.village||'—')+'</td>'+
+        '<td>'+(w.active!==false?'Active':'Inactive')+' <button class="btn sm ghost" data-action="toggle-worker" data-id="'+w.id+'">toggle</button></td>'+
+        '<td><button class="btn sm" data-action="show-worker-link" data-id="'+w.id+'">Link &amp; QR</button></td></tr>').join('') +
+      '</tbody></table></div>' : '<p class="muted">No workers yet.</p>') +
+    '</div></div>';
+}
+
+function currentOperationsForIssue(){
+  return cache.operations.filter(op=>{
+    const created = cache.bundles.some(b=>b.operation_id===op.id && b.status==='created');
+    return created;
+  });
+}
+
+function renderIssue(){
+  const available = cache.bundles.filter(b=>b.status==='created');
+  const activeWorkers = cache.workers.filter(w=>w.active!==false);
+  return '<div class="two-col">'+
+    '<div class="card">'+
+    '<h3>Scan a bundle to issue</h3>'+
+    '<p class="muted">Scan the bundle\'s QR, or pick it below, then scan or pick the worker collecting it.</p>'+
+    '<button class="btn" id="btn-scan-bundle-issue">📷 Scan bundle QR</button>'+
+    '<div class="field" style="margin-top:12px"><label>Or choose a bundle</label>'+
+    '<select id="issue-bundle-select"><option value="">— select —</option>'+
+    available.map(b=>{const o=byId(cache.orders,b.order_id);return '<option value="'+b.id+'">'+esc(b.code)+' · '+esc(o?o.ref:'')+' · qty '+b.qty+'</option>';}).join('')+
+    '</select></div>'+
+    '<button class="btn" id="btn-scan-worker-issue" style="margin-top:8px">📷 Scan worker badge</button>'+
+    '<div class="field" style="margin-top:12px"><label>Or choose a worker</label>'+
+    '<select id="issue-worker-select"><option value="">— select —</option>'+
+    activeWorkers.map(w=>'<option value="'+w.id+'">'+esc(w.name)+'</option>').join('')+
+    '</select></div>'+
+    '<button class="btn primary" id="btn-do-issue" style="margin-top:10px">Issue bundle</button>'+
+    '</div>'+
+    '<div class="card"><h3>Waiting to be issued ('+available.length+')</h3>'+
+    (available.length ? '<div class="tablewrap"><table><thead><tr><th>Code</th><th>Order</th><th>Qty</th></tr></thead><tbody>'+
+      available.map(b=>{const o=byId(cache.orders,b.order_id);return '<tr><td>'+esc(b.code)+'</td><td>'+esc(o?o.ref:'')+'</td><td>'+b.qty+'</td></tr>';}).join('')+
+      '</tbody></table></div>' : '<p class="muted">Nothing waiting — create an order first.</p>')+
+    '</div></div>';
+}
+
+function renderReturn(){
+  const outstanding = cache.bundles.filter(b=>b.status==='issued');
+  return '<div class="two-col">'+
+    '<div class="card">'+
+    '<h3>Scan a bundle to return + QC</h3>'+
+    '<button class="btn" id="btn-scan-bundle-return">📷 Scan bundle QR</button>'+
+    '<div class="field" style="margin-top:12px"><label>Or choose a bundle</label>'+
+    '<select id="return-bundle-select"><option value="">— select —</option>'+
+    outstanding.map(b=>{const o=byId(cache.orders,b.order_id);const w=byId(cache.workers,b.assigned_worker_id);return '<option value="'+b.id+'">'+esc(b.code)+' · '+esc(w?w.name:'?')+'</option>';}).join('')+
+    '</select></div>'+
+    '<div id="return-detail" style="margin-top:14px"></div>'+
+    '</div>'+
+    '<div class="card"><h3>Out with workers ('+outstanding.length+')</h3>'+
+    (outstanding.length ? '<div class="tablewrap"><table><thead><tr><th>Code</th><th>Worker</th><th>Issued</th></tr></thead><tbody>'+
+      outstanding.map(b=>{const w=byId(cache.workers,b.assigned_worker_id);return '<tr><td>'+esc(b.code)+'</td><td>'+esc(w?w.name:'—')+'</td><td>'+fmtDateTime(b.issued_at)+'</td></tr>';}).join('')+
+      '</tbody></table></div>' : '<p class="muted">Nothing currently out.</p>')+
+    '</div></div>';
+}
+
+function renderPayouts(){
+  const owed = {};
+  cache.bundles.filter(b=>b.status==='qc_passed').forEach(b=>{
+    owed[b.assigned_worker_id] = (owed[b.assigned_worker_id]||0) + (b.qty||0)*(b.piece_rate_at_issue||0);
+  });
+  const rows = Object.keys(owed).map(wid=>({worker:byId(cache.workers,wid), amount:owed[wid]})).filter(r=>r.worker);
+  const history = cache.payouts.slice().sort((a,b)=>(b.paid_at||'').localeCompare(a.paid_at||''));
+  return '<div class="two-col">'+
+    '<div class="card"><h3>Ready to pay</h3>'+
+    (rows.length ? '<div class="tablewrap"><table><thead><tr><th>Worker</th><th>Owed</th><th></th></tr></thead><tbody>'+
+      rows.map(r=>'<tr><td>'+esc(r.worker.name)+'</td><td>'+money(r.amount)+'</td><td><button class="btn sm primary" data-action="run-payout" data-worker="'+r.worker.id+'">Pay</button></td></tr>').join('')+
+      '</tbody></table></div><button class="btn rose" id="btn-pay-all" style="margin-top:12px">Run payout for everyone above</button>'
+      : '<p class="muted">Nothing outstanding right now.</p>')+
+    '</div>'+
+    '<div class="card"><h3>Payout history</h3>'+
+    (history.length ? '<div class="tablewrap" style="max-height:360px;overflow:auto"><table><thead><tr><th>Worker</th><th>Amount</th><th>Paid</th></tr></thead><tbody>'+
+      history.map(p=>{const w=byId(cache.workers,p.worker_id);return '<tr><td>'+esc(w?w.name:'—')+'</td><td>'+money(p.amount)+'</td><td>'+fmtDateTime(p.paid_at)+'</td></tr>';}).join('')+
+      '</tbody></table></div>' : '<p class="muted">No payouts yet.</p>')+
+    '</div></div>';
+}
+
+/* ------------------------------ HER PAGE ------------------------------ */
+
+function renderWorkerEntry(token){
+  if(token){
+    const worker = cache.workers.find(w=>w.token===token);
+    if(!worker) return '<div class="wrap"><div class="card empty">This link doesn\'t match a worker on file.</div></div>';
+    return renderWorkerDashboard(worker);
+  }
+  return '<div class="wrap"><div class="card" style="max-width:420px;margin:60px auto">'+
+    '<h2>Her page</h2>'+
+    '<p class="muted">Workers reach this from the private link Simpul sends them — nothing to install or log into. Paste a link\'s code here to preview it.</p>'+
+    '<form id="f-worker-token"><div class="field"><label>Worker link code</label><input name="token" required placeholder="e.g. 8f2a91cd"></div>'+
+    '<button class="btn primary" type="submit">Open</button></form></div></div>';
+}
+
+function renderWorkerDashboard(worker){
+  const bundles = cache.bundles.filter(b=> b.assigned_worker_id===worker.id && (b.status==='qc_passed' || b.status==='paid'))
+    .sort((a,b)=>(b.returned_at||'').localeCompare(a.returned_at||''));
+  const owed = bundles.filter(b=>b.status==='qc_passed').reduce((s,b)=>s+(b.qty*b.piece_rate_at_issue),0);
+  const paid = bundles.filter(b=>b.status==='paid').reduce((s,b)=>s+(b.qty*b.piece_rate_at_issue),0);
+  const payouts = cache.payouts.filter(p=>p.worker_id===worker.id).sort((a,b)=>(b.paid_at||'').localeCompare(a.paid_at||''));
+  return '<div class="wrap">'+
+    '<div class="card" style="display:flex;align-items:center;gap:14px;margin:24px 0"><span class="avatar">'+esc((worker.name||'?')[0].toUpperCase())+'</span>'+
+    '<div><h2>Hi, '+esc(worker.name)+'</h2><p class="muted" style="margin:0">Here\'s what\'s passed quality control and what you\'ve been paid.</p></div></div>'+
+    '<div class="grid cols-3" style="margin:16px 0">'+
+      stat(money(owed+paid),'Total earned') +
+      stat(money(owed),'Awaiting payout') +
+      stat(money(paid),'Paid out') +
+    '</div>'+
+    '<div class="card"><h3>Your bundles</h3>'+
+    (bundles.length ? '<div class="tablewrap"><table><thead><tr><th>Bundle</th><th>Qty</th><th>Rate</th><th>Value</th><th>Passed QC</th><th>Status</th></tr></thead><tbody>'+
+      bundles.map(b=>{const op=byId(cache.operations,b.operation_id);return '<tr><td>'+esc(b.code)+'<div class="muted">'+esc(op?op.label:'')+'</div></td><td>'+b.qty+'</td><td>'+money(b.piece_rate_at_issue)+'</td><td>'+money(b.qty*b.piece_rate_at_issue)+'</td><td>'+fmtDate(b.returned_at)+'</td><td><span class="badge '+b.status+'">'+(b.status==='paid'?'paid':'awaiting payout')+'</span></td></tr>';}).join('')+
+      '</tbody></table></div>' : '<p class="muted">Nothing has passed QC yet — it\'ll show up here the moment it does.</p>')+
+    '</div>'+
+    (payouts.length ? '<div class="card" style="margin-top:16px"><h3>Payout history</h3><div class="tablewrap"><table><thead><tr><th>Amount</th><th>Date</th><th>Method</th></tr></thead><tbody>'+
+      payouts.map(p=>'<tr><td>'+money(p.amount)+'</td><td>'+fmtDateTime(p.paid_at)+'</td><td>'+esc(p.method||'—')+'</td></tr>').join('')+
+      '</tbody></table></div></div>' : '')+
+  '</div>';
+}
+
+/* ------------------------------ TAG PAGE ------------------------------ */
+
+function renderTag(code){
+  if(code){
+    const bundle = cache.bundles.find(b=>b.code===code && (b.status==='qc_passed'||b.status==='paid'));
+    if(!bundle) return '<div class="wrap"><div class="card empty">No completed, quality-checked piece found for that tag.</div></div>';
+    const worker = byId(cache.workers,bundle.assigned_worker_id);
+    const op = byId(cache.operations,bundle.operation_id);
+    const order = byId(cache.orders,bundle.order_id);
+    const showName = worker && worker.consent_name_public;
+    return '<div class="wrap"><div class="card" style="max-width:480px;margin:48px auto">'+
+      '<p class="muted" style="margin:0 0 6px;text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;font-weight:600">Simpul provenance record</p>'+
+      '<h2>'+esc(order?order.item:'This piece')+'</h2>'+
+      '<p class="muted">Tag '+esc(bundle.code)+'</p>'+
+      '<div class="field"><label>Made by</label><div>'+(showName?esc(worker.name):'A Simpul network maker (name not shared)')+'</div></div>'+
+      '<div class="field"><label>Operation</label><div>'+esc(op?op.label:'—')+'</div></div>'+
+      '<div class="field"><label>Completed</label><div>'+fmtDate(bundle.returned_at)+'</div></div>'+
+      '<div class="field"><label>Paid on completion</label><div>'+(bundle.status==='paid' ? '✅ Yes' : 'In progress — payout runs are settled in batches') +'</div></div>'+
+      '</div></div>';
+  }
+  return '<div class="wrap"><div class="card" style="max-width:420px;margin:60px auto">'+
+    '<h2>Tag lookup</h2>'+
+    '<p class="muted">Anyone can scan the tag sewn into a finished piece to see who made it. No login needed.</p>'+
+    '<button class="btn" id="btn-scan-tag" style="margin-bottom:12px">📷 Scan a tag</button>'+
+    '<form id="f-tag"><div class="field"><label>Or enter the tag code</label><input name="code" required placeholder="PO-1023-SEW-001"></div>'+
+    '<button class="btn primary" type="submit">Look up</button></form></div></div>';
+}
+
+/* ------------------------------ QR helpers ------------------------------ */
+
+function workerLinkUrl(token){
+  return location.origin + location.pathname + '#/worker/' + token;
+}
+function tagLinkUrl(code){
+  return location.origin + location.pathname + '#/tag/' + encodeURIComponent(code);
+}
+
+function openQrModal(title, text, sublabel){
+  const bg = document.createElement('div');
+  bg.className='modal-bg';
+  bg.innerHTML = '<div class="modal"><h3>'+esc(title)+'</h3>'+
+    '<div class="center"><div class="qrbox" id="qr-target"></div></div>'+
+    '<p class="link-box">'+esc(sublabel||text)+'</p>'+
+    '<button class="btn" style="margin-top:10px" id="qr-close">Close</button></div>';
+  document.body.appendChild(bg);
+  try{ new QRCode(bg.querySelector('#qr-target'), {text:text, width:200, height:200}); }
+  catch(e){ bg.querySelector('#qr-target').textContent = '(QR generation unavailable)'; }
+  bg.querySelector('#qr-close').onclick = ()=> bg.remove();
+  bg.addEventListener('click', e=>{ if(e.target===bg) bg.remove(); });
+}
+
+function openScanModal(title, onResult){
+  const bg = document.createElement('div');
+  bg.className='modal-bg';
+  bg.innerHTML = '<div class="modal"><h3>'+esc(title)+'</h3>'+
+    '<video id="scan-video" playsinline muted></video>'+
+    '<p class="muted" id="scan-status" style="margin-top:8px">Starting camera…</p>'+
+    '<div class="field" style="margin-top:10px"><label>Or type the code</label>'+
+    '<div class="row"><input id="scan-manual" placeholder="code"><button class="btn primary" id="scan-manual-go">Use</button></div></div>'+
+    '<button class="btn" style="margin-top:10px" id="scan-close">Cancel</button></div>';
+  document.body.appendChild(bg);
+
+  let stream = null, raf = null, stopped = false;
+  function stop(){
+    stopped = true;
+    if(raf) cancelAnimationFrame(raf);
+    if(stream) stream.getTracks().forEach(t=>t.stop());
+    bg.remove();
+  }
+  bg.querySelector('#scan-close').onclick = stop;
+  bg.addEventListener('click', e=>{ if(e.target===bg) stop(); });
+  bg.querySelector('#scan-manual-go').onclick = ()=>{
+    const v = bg.querySelector('#scan-manual').value.trim();
+    if(v){ stop(); onResult(v); }
+  };
+  bg.querySelector('#scan-manual').addEventListener('keydown', e=>{
+    if(e.key==='Enter'){ e.preventDefault(); bg.querySelector('#scan-manual-go').click(); }
+  });
+
+  const video = bg.querySelector('#scan-video');
+  const statusEl = bg.querySelector('#scan-status');
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || typeof jsQR==='undefined'){
+    statusEl.textContent = 'Camera scanning isn\'t available here — type the code instead.';
+    video.style.display='none';
+    return;
+  }
+  navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}).then(s=>{
+    if(stopped){ s.getTracks().forEach(t=>t.stop()); return; }
+    stream = s;
+    video.srcObject = s;
+    video.play();
+    statusEl.textContent = 'Point the camera at the QR code.';
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    function tick(){
+      if(stopped) return;
+      if(video.readyState === video.HAVE_ENOUGH_DATA){
+        canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+        ctx.drawImage(video,0,0,canvas.width,canvas.height);
+        const img = ctx.getImageData(0,0,canvas.width,canvas.height);
+        const code = jsQR(img.data, img.width, img.height);
+        if(code && code.data){ stop(); onResult(code.data); return; }
+      }
+      raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
+  }).catch(()=>{
+    statusEl.textContent = 'Couldn\'t access the camera — type the code instead.';
+    video.style.display='none';
+  });
+}
+
+/* ------------------------------ Actions ------------------------------ */
+
+function logEvent(bundleId, eventType, note){
+  return db.collection('bundle_events').add({
+    bundle_id: bundleId, event_type: eventType, actor: coordinatorName || 'unknown',
+    at: new Date().toISOString(), note: note||''
+  });
+}
+
+async function createBrand(data){
+  await db.collection('brands').doc(uid()).set({
+    name: data.name, payment_terms_days: Number(data.payment_terms_days)||30
+  });
+  toast('Brand added');
+}
+
+async function createOrderWithOperation(data){
+  const orderId = uid();
+  await db.collection('orders').doc(orderId).set({
+    brand_id: data.brand_id, ref: data.ref, item: data.item,
+    qty: Number(data.qty), bundle_size: Number(data.bundle_size),
+    order_value: Number(data.order_value)||0, placed_at: new Date().toISOString(),
+    due_at: data.due_at||null, status:'active'
+  });
+  await addOperation(orderId, data.op_label, Number(data.piece_rate), 1);
+  toast('Order created and split into bundles');
+}
+
+async function addOperation(orderId, label, pieceRate, sequence){
+  const order = byId(cache.orders, orderId) || {qty:0,bundle_size:1,ref:''};
+  const opId = uid();
+  await db.collection('operations').doc(opId).set({
+    order_id: orderId, code: label.slice(0,4).toUpperCase().replace(/[^A-Z]/g,''), label: label,
+    sequence: sequence||1, piece_rate: pieceRate
+  });
+  const qty = order.qty || Number((cache.orders.find(o=>o.id===orderId)||{}).qty) || 0;
+  const bundleSize = order.bundle_size || 1;
+  const count = Math.max(1, Math.ceil(qty / bundleSize));
+  const writes = [];
+  for(let i=0;i<count;i++){
+    const remaining = qty - i*bundleSize;
+    const q = Math.min(bundleSize, remaining>0?remaining:bundleSize);
+    const code = order.ref + '-' + (label.slice(0,4).toUpperCase().replace(/[^A-Z]/g,'')||'OP') + '-' + String(i+1).padStart(3,'0');
+    writes.push(db.collection('bundles').doc(uid()).set({
+      order_id: orderId, operation_id: opId, code: code, qty: q,
+      assigned_worker_id: null, piece_rate_at_issue: null, status:'created',
+      issued_at:null, returned_at:null, qc_result:null, rework_of_bundle_id:null
+    }));
+  }
+  await Promise.all(writes);
+}
+
+async function registerWorker(data){
+  const token = shortToken();
+  const workerId = uid();
+  await db.collection('workers').doc(workerId).set({
+    name:data.name, phone:data.phone||'', village:data.village||'',
+    skills:(data.skills||'').split(',').map(s=>s.trim()).filter(Boolean),
+    payout_method:data.payout_method||'', consent_name_public: !!data.consent_name_public,
+    consent_data_shared: !!data.consent_data_shared, active:true, token: token
+  });
+  toast('Worker registered');
+  setTimeout(()=>{
+    const url = workerLinkUrl(token);
+    openQrModal('Her page — '+data.name, url, url);
+  }, 150);
+}
+
+async function toggleWorkerActive(id){
+  const w = byId(cache.workers,id);
+  await db.doc('workers/'+id).update({active: !(w.active!==false)});
+}
+
+async function issueBundle(bundleId, workerId){
+  const bundle = byId(cache.bundles,bundleId);
+  const op = byId(cache.operations,bundle.operation_id);
+  await db.doc('bundles/'+bundleId).update({
+    assigned_worker_id: workerId, piece_rate_at_issue: op.piece_rate,
+    status:'issued', issued_at: new Date().toISOString()
+  });
+  await logEvent(bundleId,'issued');
+  toast('Bundle '+bundle.code+' issued');
+}
+
+async function returnAndQC(bundleId, pass){
+  const bundle = byId(cache.bundles,bundleId);
+  const now = new Date().toISOString();
+  await logEvent(bundleId,'returned');
+  if(pass){
+    await db.doc('bundles/'+bundleId).update({status:'qc_passed', returned_at: now, qc_result:'pass'});
+    await logEvent(bundleId,'qc_passed');
+    toast('Bundle '+bundle.code+' passed QC');
+  } else {
+    await db.doc('bundles/'+bundleId).update({status:'reworked', returned_at: now, qc_result:'fail'});
+    await logEvent(bundleId,'qc_failed');
+    const newId = uid();
+    const reworkNum = cache.bundles.filter(b=>b.rework_of_bundle_id===bundleId).length + 1;
+    await db.collection('bundles').doc(newId).set({
+      order_id: bundle.order_id, operation_id: bundle.operation_id,
+      code: bundle.code+'-R'+reworkNum, qty: bundle.qty,
+      assigned_worker_id: bundle.assigned_worker_id, piece_rate_at_issue: bundle.piece_rate_at_issue,
+      status:'issued', issued_at: now, returned_at:null, qc_result:null,
+      rework_of_bundle_id: bundleId
+    });
+    await logEvent(bundleId,'reworked','reissued as '+bundle.code+'-R'+reworkNum);
+    await logEvent(newId,'issued','rework of '+bundle.code);
+    toast('Bundle '+bundle.code+' failed QC — reissued automatically');
+  }
+}
+
+async function runPayout(workerId){
+  const worker = byId(cache.workers,workerId);
+  const owed = cache.bundles.filter(b=>b.assigned_worker_id===workerId && b.status==='qc_passed');
+  const amount = owed.reduce((s,b)=>s+(b.qty*b.piece_rate_at_issue),0);
+  if(amount<=0) return;
+  const now = new Date().toISOString();
+  const orderIds = Array.from(new Set(owed.map(b=>b.order_id)));
+  await db.collection('payouts').doc(uid()).set({
+    worker_id: workerId, order_id: orderIds.length===1?orderIds[0]:null,
+    amount: amount, earned_at: now, advanced:false, advance_fee:0,
+    paid_at: now, method: worker.payout_method||'unspecified'
+  });
+  await Promise.all(owed.map(b=>db.doc('bundles/'+b.id).update({status:'paid'})));
+  await Promise.all(owed.map(b=>logEvent(b.id,'paid')));
+  toast('Paid '+worker.name+' '+money(amount));
+}
+
+/* ------------------------------ Event wiring ------------------------------ */
+
+function afterRender(section, rest){
+  const app = document.getElementById('app');
+
+  const signin = document.getElementById('f-signin');
+  if(signin) signin.onsubmit = e=>{
+    e.preventDefault();
+    const name = new FormData(signin).get('name').trim();
+    if(!name) return;
+    coordinatorName = name; localStorage_set('simpul_actor', name);
+    render();
+  };
+  const signout = document.getElementById('btn-signout');
+  if(signout) signout.onclick = ()=>{ coordinatorName=''; localStorage_set('simpul_actor',''); render(); };
+
+  app.querySelectorAll('.tab').forEach(t=> t.onclick = ()=>{ consoleTab = t.dataset.tab; render(); });
+
+  const fBrand = document.getElementById('f-brand');
+  if(fBrand) fBrand.onsubmit = async e=>{ e.preventDefault(); const d=Object.fromEntries(new FormData(fBrand)); fBrand.querySelector('button').disabled=true; await createBrand(d); };
+
+  const fOrder = document.getElementById('f-order');
+  if(fOrder) fOrder.onsubmit = async e=>{ e.preventDefault(); const d=Object.fromEntries(new FormData(fOrder)); fOrder.querySelector('button').disabled=true; await createOrderWithOperation(d); };
+
+  const fWorker = document.getElementById('f-worker');
+  if(fWorker) fWorker.onsubmit = async e=>{
+    e.preventDefault();
+    const fd = new FormData(fWorker);
+    const d = { name: fd.get('name'), phone: fd.get('phone'), village: fd.get('village'),
+      skills: fd.get('skills'), payout_method: fd.get('payout_method'),
+      consent_name_public: fWorker.querySelector('[name=consent_name_public]').checked,
+      consent_data_shared: fWorker.querySelector('[name=consent_data_shared]').checked };
+    fWorker.querySelector('button').disabled=true;
+    await registerWorker(d);
+  };
+
+  app.querySelectorAll('[data-action="toggle-worker"]').forEach(b=> b.onclick = ()=> toggleWorkerActive(b.dataset.id));
+  app.querySelectorAll('[data-action="show-worker-link"]').forEach(b=> b.onclick = ()=>{
+    const w = byId(cache.workers,b.dataset.id);
+    openQrModal('Her page — '+w.name, workerLinkUrl(w.token), workerLinkUrl(w.token));
+  });
+  app.querySelectorAll('[data-action="add-op"]').forEach(b=> b.onclick = ()=>{
+    const label = prompt('Operation label (e.g. Finishing):');
+    if(!label) return;
+    const rate = prompt('Piece rate per unit:');
+    if(rate===null) return;
+    addOperation(b.dataset.order, label, Number(rate)||0, 2).then(()=>toast('Operation added, bundles created'));
+  });
+
+  const bScanBundleIssue = document.getElementById('btn-scan-bundle-issue');
+  if(bScanBundleIssue) bScanBundleIssue.onclick = ()=> openScanModal('Scan bundle QR', code=>{
+    const b = cache.bundles.find(x=>x.code===code && x.status==='created');
+    const sel = document.getElementById('issue-bundle-select');
+    if(b && sel) sel.value = b.id; else toast('No waiting bundle matches that code');
+  });
+  const bScanWorkerIssue = document.getElementById('btn-scan-worker-issue');
+  if(bScanWorkerIssue) bScanWorkerIssue.onclick = ()=> openScanModal('Scan worker badge', code=>{
+    const token = code.replace(/^worker:/,'');
+    const w = cache.workers.find(x=>x.token===token);
+    const sel = document.getElementById('issue-worker-select');
+    if(w && sel) sel.value = w.id; else toast('No worker matches that badge');
+  });
+  const doIssue = document.getElementById('btn-do-issue');
+  if(doIssue) doIssue.onclick = ()=>{
+    const bid = document.getElementById('issue-bundle-select').value;
+    const wid = document.getElementById('issue-worker-select').value;
+    if(!bid || !wid){ toast('Pick a bundle and a worker first'); return; }
+    issueBundle(bid, wid);
+  };
+
+  const returnSelect = document.getElementById('return-bundle-select');
+  if(returnSelect){
+    const showDetail = ()=>{
+      const bid = returnSelect.value;
+      const detail = document.getElementById('return-detail');
+      if(!bid){ detail.innerHTML=''; return; }
+      const b = byId(cache.bundles,bid);
+      const w = byId(cache.workers,b.assigned_worker_id);
+      detail.innerHTML = '<div class="card" style="background:var(--surface-2)">'+
+        '<p><b>'+esc(b.code)+'</b> — '+esc(b.qty)+' units, worker '+esc(w?w.name:'?')+'</p>'+
+        '<div class="row"><button class="btn primary" id="btn-qc-pass">✔ Pass QC</button><button class="btn danger" id="btn-qc-fail">✘ Fail — rework</button></div></div>';
+      document.getElementById('btn-qc-pass').onclick = ()=>{ returnAndQC(bid,true); };
+      document.getElementById('btn-qc-fail').onclick = ()=>{ returnAndQC(bid,false); };
+    };
+    returnSelect.onchange = showDetail;
+    showDetail();
+  }
+  const bScanBundleReturn = document.getElementById('btn-scan-bundle-return');
+  if(bScanBundleReturn) bScanBundleReturn.onclick = ()=> openScanModal('Scan bundle QR', code=>{
+    const b = cache.bundles.find(x=>x.code===code && x.status==='issued');
+    if(b){ returnSelect.value=b.id; returnSelect.onchange(); } else toast('No outstanding bundle matches that code');
+  });
+
+  app.querySelectorAll('[data-action="show-bundle-qr"]').forEach(b=> b.onclick = ()=> openQrModal('Bundle tag — '+b.dataset.code, b.dataset.code, b.dataset.code));
+
+  app.querySelectorAll('[data-action="run-payout"]').forEach(b=> b.onclick = ()=> runPayout(b.dataset.worker));
+  const payAll = document.getElementById('btn-pay-all');
+  if(payAll) payAll.onclick = async ()=>{
+    const ids = Array.from(new Set(cache.bundles.filter(b=>b.status==='qc_passed').map(b=>b.assigned_worker_id)));
+    payAll.disabled = true;
+    for(const id of ids){ await runPayout(id); }
+  };
+
+  const fWorkerToken = document.getElementById('f-worker-token');
+  if(fWorkerToken) fWorkerToken.onsubmit = e=>{ e.preventDefault(); const t=new FormData(fWorkerToken).get('token').trim(); if(t) go('/worker/'+t); };
+
+  const fTag = document.getElementById('f-tag');
+  if(fTag) fTag.onsubmit = e=>{ e.preventDefault(); const c=new FormData(fTag).get('code').trim(); if(c) go('/tag/'+encodeURIComponent(c)); };
+  const bScanTag = document.getElementById('btn-scan-tag');
+  if(bScanTag) bScanTag.onclick = ()=> openScanModal('Scan tag QR', code=> go('/tag/'+encodeURIComponent(code)));
+}
+
+/* ------------------------------ Boot ------------------------------ */
+
+initDb();
+
+// bundle QR: expose a way to view/print a bundle's QR from the board (bonus, wired via delegation on click of code cells with data)
+document.addEventListener('click', function(e){
+  const codeCell = e.target.closest('[data-bundle-qr]');
+  if(codeCell){ openQrModal('Bundle tag — '+codeCell.dataset.bundleQr, codeCell.dataset.bundleQr, codeCell.dataset.bundleQr); }
+});
+
+})();
+</script>
